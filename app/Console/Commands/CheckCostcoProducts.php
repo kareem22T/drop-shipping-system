@@ -9,33 +9,28 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use App\Traits\SendEmailTrait;
 
-class CheckCostcoProducts extends Command
+abstract class CheckCostcoProducts extends Command
 {
     use SendEmailTrait;
-    protected $signature = 'costco:check';
-    protected $description = 'Refetch products from site 1 and check for changes in price or stock';
 
-    private $proxies = [];
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $proxies = [];
 
     public function handle()
     {
-        Log::info('RefetchProducts command started.');
+        // Log::info($this->description . ' started.');
 
-        $products = Product::where('site', 1)->take(50)->get();
+        $products = $this->getProducts();
         foreach ($products as $product) {
             $this->checkProductChanges($product);
-            sleep(2);
+            sleep(2);  // Sleep for 2 seconds between requests
         }
 
-        Log::info('RefetchProducts command completed.');
+        // Log::info($this->description . ' completed.');
     }
 
-    private function fetchProduct($url)
+    abstract protected function getProducts();
+
+    protected function fetchProduct($url)
     {
         $result = $this->getStringAfterP($url);
         $client = new Client();
@@ -58,7 +53,7 @@ class CheckCostcoProducts extends Command
         return isset($parts[1]) ? $parts[1] : null;
     }
 
-    private function checkProductChanges($product)
+    protected function checkProductChanges($product)
     {
         $fetched_product = $this->fetchProduct($product->url);
 
@@ -105,7 +100,7 @@ class CheckCostcoProducts extends Command
                 $content .= $key == "stock" ? ($change['new'] == 1 ? "In Stock" : ($change['new'] == 2 ? "Managed Stock" : "Out Of Stock")) : $change['new'];
                 $content .= "</b>";
 
-                $this->sendEmail("kotbekareem74@gmail.com", "Warning", $content);
+                $this->sendEmail("Mohamed.attia1234@outlook.com", "Warning", $content);
             }
             // Optionally update the product in the database
             $product->update([
@@ -115,7 +110,7 @@ class CheckCostcoProducts extends Command
         }
     }
 
-    private function fetchProxiesFromApi()
+    protected function fetchProxiesFromApi()
     {
         $client = new Client();
         $apiUrl = 'https://proxylist.geonode.com/api/proxy-list?limit=500&page=1&sort_by=lastChecked&sort_type=desc';
@@ -130,7 +125,7 @@ class CheckCostcoProducts extends Command
         }
     }
 
-    private function getRandomProxy()
+    protected function getRandomProxy()
     {
         if (empty($this->proxies)) {
             $this->fetchProxiesFromApi();
