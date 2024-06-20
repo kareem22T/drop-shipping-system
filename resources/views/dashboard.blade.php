@@ -202,7 +202,7 @@
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Stock Level</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Code</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Site</th>
-                  <th class="text-secondary opacity-7">Controls</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Controls</th>
                 </tr>
               </thead>
               <tbody>
@@ -254,7 +254,7 @@
                 @endforeach
                 @else
                     <tr>
-                        <td colspan="6" class="text-center p-4">
+                        <td colspan="7" class="text-center p-4">
                             There is no products yet !
                         </td>
                     </tr>
