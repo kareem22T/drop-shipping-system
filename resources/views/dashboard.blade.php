@@ -252,7 +252,7 @@
                 @endforeach
                 @else
                     <tr>
-                        <td colspan="4" class="text-center p-4">
+                        <td colspan="6" class="text-center p-4">
                             There is no products yet !
                         </td>
                     </tr>
