@@ -49,7 +49,7 @@ class HomeController extends Controller
         $product = Product::find($request->id);
         $product->delete();
 
-        return redirect()->to('/')
+        return redirect()->back()
         ->with('success', 'Product deleted successfuly');
     }
 }
