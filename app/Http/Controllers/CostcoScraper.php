@@ -65,6 +65,9 @@ class CostcoScraper extends Controller
         $stock_level = $fetched_product->stock->stockLevel ;
         $url = $request->url;
         $code = getStringAfterP2($request->url);
+        $product_exists = Product::where("code", $code)->first();
+        if ($product_exists)
+            return redirect()->back()->withErrors(["general" => "Product already exists"]);
 
         $product = Product::create([
             "name" => $name,
