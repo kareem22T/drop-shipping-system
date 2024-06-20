@@ -75,7 +75,7 @@ class CostcoScraper extends Controller
                 }
             }
         }
-        $price = $fetched_product->basePrice->formattedValue;
+        $price = isset($fetched_product->basePrice) ? $fetched_product->basePrice->formattedValue : "N/A";
         $stock = $fetched_product->stock->stockLevel > 0 ? 1 : 0;
         $stock_level = $fetched_product->stock->stockLevel ;
         $url = $request->url;

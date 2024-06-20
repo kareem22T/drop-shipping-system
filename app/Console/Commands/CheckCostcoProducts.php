@@ -62,7 +62,8 @@ abstract class CheckCostcoProducts extends Command
             return;
         }
 
-        $newPrice = $fetched_product->basePrice->formattedValue;
+        $newPrice = isset($fetched_product->basePrice) ? $fetched_product->basePrice->formattedValue : "N/A";
+
         $newStock = $fetched_product->stock->stockLevel > 0 ? 1 : 0;
 
         $changes = [];
