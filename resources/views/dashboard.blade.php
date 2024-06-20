@@ -197,8 +197,10 @@
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Price</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Stock Level</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Code</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Site</th>
-                  {{-- <th class="text-secondary opacity-7"></th> --}}
+                  <th class="text-secondary opacity-7">Controls</th>
                 </tr>
               </thead>
               <tbody>
@@ -224,7 +226,7 @@
                                 <span class="badge badge-sm bg-gradient-success">In Stock</span>
                                 @break
                             @case(2)
-                                <span class="badge badge-sm bg-gradient-secondary">Managed</span>
+                                <span class="badge badge-sm bg-gradient-success">In Stock</span>
                                 @break
                             @default
                                 <span class="badge badge-sm bg-gradient-danger">Out Of Stock</span>
@@ -232,7 +234,19 @@
                         @endswitch
                     </td>
                     <td>
+                        <p class="text-xs font-weight-bold mb-0">{{ $product->stock_level }}</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">{{ $product->code }}</p>
+                    </td>
+                    <td>
                         Costco Uk
+                    </td>
+                    <td>
+                        <button class="btn btn-danger remove-product" data-product-id="{{ $product->id }}">
+                            Remove
+                        </button>
+                        <a href="{{$product->url}}" target="blanck" class="btn btn-success ml-2">Link</a>
                     </td>
                 </tr>
                 @endforeach

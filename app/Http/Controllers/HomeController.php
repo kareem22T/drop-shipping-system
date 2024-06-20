@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\CostcoScraper;
 use App\Models\Warning;
+use App\Models\Product;
 
 class HomeController extends Controller
 {
@@ -43,5 +44,12 @@ class HomeController extends Controller
         return response()->json([
             "status" => true
         ]);
+    }
+    public function removeProduct(Request $request) {
+        $product = Product::find($request->id);
+        $product->delete();
+
+        return redirect()->to('/')
+        ->with('success', 'Product deleted successfuly');
     }
 }

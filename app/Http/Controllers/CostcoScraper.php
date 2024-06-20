@@ -39,6 +39,11 @@ class CostcoScraper extends Controller
     }
 
     public static function insertProduct($request) {
+        function getStringAfterP2($url) {
+            $parts = explode('/p/', $url);
+            return isset($parts[1]) ? $parts[1] : null;
+        }
+
         $validator = Validator::make($request->all(), [
             'url' => 'required|url|regex:/https:\/\/www\.costco\.co\.uk\/.+\/p\/.+/',
         ]);
@@ -56,8 +61,10 @@ class CostcoScraper extends Controller
         $name = $fetched_product->englishName;
         $image = "https://www.costco.co.uk" . $fetched_product->images[0]->url;
         $price = $fetched_product->basePrice->formattedValue;
-        $stock = $fetched_product->stock->stockLevel > 0 ? ($fetched_product->stock->stockLevel > 10 ? 1 : 2) : 0;
+        $stock = $fetched_product->stock->stockLevel > 0 ? 1 : 0;
+        $stock_level = $fetched_product->stock->stockLevel ;
         $url = $request->url;
+        $code = getStringAfterP2($request->url);
 
         $product = Product::create([
             "name" => $name,
@@ -65,7 +72,9 @@ class CostcoScraper extends Controller
             "price" => $price,
             "stock" => $stock,
             "site" => 1,
-            "url" => $url
+            "url" => $url,
+            "code" => $code,
+            "stock_level" => $stock_level,
         ]);
 
         return redirect()->to('/')

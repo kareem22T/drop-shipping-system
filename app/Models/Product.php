@@ -15,6 +15,8 @@ class Product extends Model
         'stock',
         'url',
         'site',
+        'stock_level',
+        'code'
     ];
 
     /**

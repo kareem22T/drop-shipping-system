@@ -436,6 +436,10 @@
                         })
                         .catch(error => console.error('Error:', error));
             });
+            $('.remove-product').click(function() {
+                if ( confirm("Are Your sure to remove this product") )
+                    window.location.href = `/remove-product?id=${$(this).attr("data-product-id")}`
+            });
         });
         $(".closeOld").on("click", function () {
             $('#warningModalOld').modal('hide');

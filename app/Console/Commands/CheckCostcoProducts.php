@@ -63,7 +63,7 @@ abstract class CheckCostcoProducts extends Command
         }
 
         $newPrice = $fetched_product->basePrice->formattedValue;
-        $newStock = $fetched_product->stock->stockLevel > 0 ? ($fetched_product->stock->stockLevel > 10 ? 1 : 2) : 0;
+        $newStock = $fetched_product->stock->stockLevel > 0 ? 1 : 0;
 
         $changes = [];
 
