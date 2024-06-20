@@ -60,6 +60,21 @@ class CostcoScraper extends Controller
 
         $name = $fetched_product->englishName;
         $image = "https://www.costco.co.uk" . $fetched_product->images[0]->url;
+        function isImageURL($url) {
+            $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
+            $ext = pathinfo($url, PATHINFO_EXTENSION);
+            return in_array(strtolower($ext), $imageExtensions);
+        }
+
+        // Assuming $fetched_product->images is an array of image objects
+        if (!empty($fetched_product->images)) {
+            foreach ($fetched_product->images as $imageObj) {
+                if (isset($imageObj->url) && isImageURL($imageObj->url)) {
+                    $image = "https://www.costco.co.uk" . $imageObj->url;
+                    break;
+                }
+            }
+        }
         $price = $fetched_product->basePrice->formattedValue;
         $stock = $fetched_product->stock->stockLevel > 0 ? 1 : 0;
         $stock_level = $fetched_product->stock->stockLevel ;
