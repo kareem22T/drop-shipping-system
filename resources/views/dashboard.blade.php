@@ -211,7 +211,7 @@
                             <img src="{{$product->image}}" class="avatar avatar-lg me-3" alt="user1">
                         </div>
                         <div class="d-flex flex-column justify-content-center">
-                            <h6 class="mb-0 text-sm" style="max-width: 350px;  overflow: hidden; text-overflow:ellipsis">{{$product->name}}</h6>
+                            <h6 class="mb-0 text-sm" style="max-width: 420px;  overflow: hidden; text-overflow:ellipsis;white-space: wrap;">{{$product->name}}</h6>
                         </div>
                         </div>
                     </td>
