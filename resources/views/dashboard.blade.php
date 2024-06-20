@@ -97,6 +97,7 @@
       $warnings = App\Models\Warning::all();
   @endphp
       <!-- Modal HTML -->
+      @if($warnings->count() > 0)
     <div class="modal fade" id="warningModalOld" tabindex="-1" role="dialog" aria-labelledby="warningModalOldLabel" aria-hidden="true">
         <div class="modal-dialog" role="document" style="  min-width: calc(100vw - 32px);">
             <div class="modal-content">
@@ -132,6 +133,7 @@
             </div>
         </div>
     </div>
+    @endif
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
