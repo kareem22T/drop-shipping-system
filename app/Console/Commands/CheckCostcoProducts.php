@@ -83,6 +83,12 @@ abstract class CheckCostcoProducts extends Command
             ];
         }
 
+        if ($product->stock_level != $newStockLevel) {
+            $product->update([
+                'stock_level' => $newStockLevel,
+            ]);
+        }
+
         if (!empty($changes)) {
             Log::info("Product {$product->id} has changes:", $changes);
             foreach ($changes as $key => $change) {
@@ -107,7 +113,6 @@ abstract class CheckCostcoProducts extends Command
             // Optionally update the product in the database
             $product->update([
                 'price' => $newPrice,
-                'stock_level' => $newStockLevel,
                 'stock' => $newStock
             ]);
         }
