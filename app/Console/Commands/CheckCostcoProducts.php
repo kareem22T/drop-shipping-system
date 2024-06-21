@@ -65,6 +65,7 @@ abstract class CheckCostcoProducts extends Command
         $newPrice = isset($fetched_product->basePrice) ? $fetched_product->basePrice->formattedValue : "N/A";
 
         $newStock = $fetched_product->stock->stockLevel > 0 ? 1 : 0;
+        $newStockLevel = $fetched_product->stock->stockLevel;
 
         $changes = [];
 
@@ -106,6 +107,7 @@ abstract class CheckCostcoProducts extends Command
             // Optionally update the product in the database
             $product->update([
                 'price' => $newPrice,
+                'stock_level' => $newStockLevel,
                 'stock' => $newStock
             ]);
         }
