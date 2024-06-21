@@ -9,8 +9,22 @@ use App\Models\Product;
 
 class HomeController extends Controller
 {
-    public function dahsboardIndex() {
-        return view("dashboard");
+    public function dahsboardIndex(Request $request) {
+        $sort = $request->input('sort', 'latest');
+
+        $productsQuery = Product::query();
+
+        if ($sort == 'stock_level_asc') {
+            $productsQuery->orderBy('stock_level', 'asc');
+        } elseif ($sort == 'stock_level_desc') {
+            $productsQuery->orderBy('stock_level', 'desc');
+        } else {
+            $productsQuery->latest();
+        }
+
+        $products = $productsQuery->paginate(20)->appends(['sort' => $sort]);
+
+        return view('dashboard', compact('products', 'sort'));
     }
 
     public function storeProduct(Request $request) {
