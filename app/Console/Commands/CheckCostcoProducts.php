@@ -107,6 +107,10 @@ abstract class CheckCostcoProducts extends Command
                 $content .= "<b>";
                 $content .= $key == "stock" ? ($change['new'] == 1 ? "In Stock" : ($change['new'] == 2 ? "Managed Stock" : "Out Of Stock")) : $change['new'];
                 $content .= "</b>";
+                $content .= "<br>";
+                $content .= "<a href='" . $product->url . "'>";
+                $content .= "Link Here";
+                $content .= "</a>";
 
                 $this->sendEmail("Mohamed.attia1234@outlook.com", "Warning", $content);
             }

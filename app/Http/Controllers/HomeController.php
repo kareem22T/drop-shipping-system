@@ -11,6 +11,7 @@ class HomeController extends Controller
 {
     public function dahsboardIndex(Request $request) {
         $sort = $request->input('sort', 'latest');
+        $search = $request->input('search', '');
 
         $productsQuery = Product::query();
 
@@ -18,11 +19,16 @@ class HomeController extends Controller
             $productsQuery->orderBy('stock_level', 'asc');
         } elseif ($sort == 'stock_level_desc') {
             $productsQuery->orderBy('stock_level', 'desc');
-        } else {
+        } elseif ($search)
+            $productsQuery
+            ->where('name', 'like', '%' . $search . '%')
+            ->orWhere('code', 'like', '%' . $search . '%')
+            ->orWhere('url', 'like', '%' . $search . '%');
+        else {
             $productsQuery->latest();
         }
 
-        $products = $productsQuery->paginate(20)->appends(['sort' => $sort]);
+        $products = $productsQuery->paginate(20)->appends(['sort' => $sort, "search" => $search]);
 
         return view('dashboard', compact('products', 'sort'));
     }
