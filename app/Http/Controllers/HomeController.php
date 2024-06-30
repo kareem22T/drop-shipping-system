@@ -72,4 +72,15 @@ class HomeController extends Controller
         return redirect()->back()
         ->with('success', 'Product deleted successfuly');
     }
+
+    public function deletSelected(Request $request) {
+        $products = $request->input("products", []);
+        foreach ($products as $id) {
+            $product = Product::find($id);
+            $product->delete();
+        }
+
+        return redirect()->back()
+        ->with('success', 'Products deleted successfuly');
+    }
 }

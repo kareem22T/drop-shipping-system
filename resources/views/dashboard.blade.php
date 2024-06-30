@@ -3,6 +3,7 @@
 @section("title", "Dashboard")
 
 @section("content")
+<div id="dash_wrapper">
     <div class="row d-none">
     <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
       <div class="card">
@@ -146,10 +147,11 @@
         <form action="{{route('product.store')}}" method="POST">
             @csrf
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="">Url</label>
-                    <input type="text" name="url" id="url" placeholder="Product Url" class="form-control">
+                <div class="form-group" v-for="(item, index) in urls" :key="index">
+                    <label for="">Url <span v-if="index != 0" @click="removeUrl(index)" class="text-danger" style="cursor: pointer"> Remove</span></label>
+                    <input type="text" name="url[]" id="url" placeholder="Product Url" class="form-control">
                 </div>
+                <button class="btn btn-success w-100" @click.prevent="this.urls.push([''])">Add Another url</button>
                 <div class="form-check">
                     <input class="form-check-input" type="radio" name="site" value="1" checked id="flexRadioDefault1">
                     <label class="form-check-label" for="flexRadioDefault1">
@@ -186,13 +188,21 @@
       <div class="card mb-4">
         <div class="card-header pb-0 d-flex justify-content-between">
           <h6>All Products</h6>
-          <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add Product</button>
+          <form id="delete-all" method="POST" action="/delete-all-selected">
+            @csrf
+            <input type="hidden" name="products[]" v-for="item in selected_products" :value="item">
+          </form>
+          <div class="d-flex" style="gap: 12px">
+              <button class="btn btn-danger" v-if="selected_products.length > 0" @click="deleteAll">Delete selected</button>
+              <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add Product</button>
+            </div>
         </div>
         <div class="card-body px-0 pt-0 pb-2">
           <div class="table-responsive p-0">
             <table class="table align-items-center mb-0">
               <thead>
                 <tr>
+                <th></th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Price</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock</th>
@@ -231,8 +241,13 @@
               </thead>
               <tbody>
                 @if($products->count() > 0)
-                @foreach ($products as $product)
+                @foreach ($products as $index => $product)
                     <tr>
+                    <td>
+                        <div class="w-100 d-flex justify-content-center align-item-center">
+                            <input type="checkbox" name="product{{$index}}" style="width: 15px;height: 15px" id="product{{$index}}" value="{{$product->id}}" v-model="selected_products">
+                        </div>
+                    </td>
                     <td>
                         <div class="d-flex px-2 py-1">
                         <div>
@@ -293,4 +308,33 @@
       </div>
     </div>
   </div>
+</div>
+@endsection
+
+
+@section("scripts")
+<script>
+    const { createApp, ref } = Vue;
+
+    createApp({
+      data() {
+        return {
+            urls: [""],
+            selected_products: []
+        }
+      },
+      methods: {
+        removeUrl(index) {
+            this.urls.splice(index, 1);
+        },
+        deleteAll() {
+        // Make an AJAX request to remove all selected products
+        if (confirm("Are you sure you want to remove all selected products?")) {
+            $("#delete-all").trigger("submit")
+        }
+        }
+        }
+    }).mount('#dash_wrapper')
+</script>
+
 @endsection

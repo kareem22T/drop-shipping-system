@@ -13,3 +13,4 @@ Route::get("/costco/get-product", [CostcoScraper::class, "fetchProduct"]);
 Route::post("/costco/add-product", [CostcoScraper::class, "insertProduct"]);
 Route::get('/delete-all-warnings', [HomeController::class, 'destroyAll']);
 Route::get('/remove-product', [HomeController::class, 'removeProduct']);
+Route::post('/delete-all-selected', [HomeController::class, 'deletSelected']);

@@ -13,13 +13,8 @@ class CostcoScraper extends Controller
 
     private static function fetchProduct($url)
     {
-        // Define the helper function inside the method
-        function getStringAfterP($url) {
-            $parts = explode('/p/', $url);
-            return isset($parts[1]) ? $parts[1] : null;
-        }
 
-        $result = getStringAfterP($url);
+        $result = isset(explode('/p/', $url)[1]) ? explode('/p/', $url)[1] : null;
 
         // Assume getRandomProxy is another static method or remove it if not needed
         // $proxy = self::getRandomProxy();
@@ -45,7 +40,8 @@ class CostcoScraper extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'url' => 'required|url|regex:/https:\/\/www\.costco\.co\.uk\/.+\/p\/.+/',
+            'url' => 'required|array|max:10',
+            'url.*' => 'required|url|regex:/https:\/\/www\.costco\.co\.uk\/.+\/p\/.+/',
         ]);
 
         if ($validator->fails()) {
@@ -53,47 +49,44 @@ class CostcoScraper extends Controller
         }
 
         // Call the static method with self::
-        $fetched_product = self::fetchProduct($request->url);
+        foreach ($request->url as $item) {
+            $fetched_product = self::fetchProduct($item);
 
-        if (!$fetched_product)
-            return redirect()->back()->withErrors(["general" => "Something wrong happened"]);
+            if (!$fetched_product)
+                return redirect()->back()->withErrors(["general" => "Something wrong happened"]);
 
-        $name = $fetched_product->englishName;
-        $image = "https://www.costco.co.uk" . $fetched_product->images[0]->url;
-        function isImageURL($url) {
-            $imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'];
-            $ext = pathinfo($url, PATHINFO_EXTENSION);
-            return in_array(strtolower($ext), $imageExtensions);
-        }
+            $name = $fetched_product->englishName;
+            $image = "https://www.costco.co.uk" . $fetched_product->images[0]->url;
 
-        // Assuming $fetched_product->images is an array of image objects
-        if (!empty($fetched_product->images)) {
-            foreach ($fetched_product->images as $imageObj) {
-                if (isset($imageObj->url) && isImageURL($imageObj->url)) {
-                    $image = "https://www.costco.co.uk" . $imageObj->url;
-                    break;
+            // Assuming $fetched_product->images is an array of image objects
+            if (!empty($fetched_product->images)) {
+                foreach ($fetched_product->images as $imageObj) {
+                    if (isset($imageObj->url) && in_array(strtolower(pathinfo($imageObj->url, PATHINFO_EXTENSION)), ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'])) {
+                        $image = "https://www.costco.co.uk" . $imageObj->url;
+                        break;
+                    }
                 }
             }
-        }
-        $price = isset($fetched_product->basePrice) ? $fetched_product->basePrice->formattedValue : "N/A";
-        $stock = $fetched_product->stock->stockLevel > 0 ? 1 : 0;
-        $stock_level = $fetched_product->stock->stockLevel ;
-        $url = $request->url;
-        $code = getStringAfterP2($request->url);
-        $product_exists = Product::where("code", $code)->first();
-        if ($product_exists)
-            return redirect()->back()->withErrors(["general" => "Product already exists"]);
+            $price = isset($fetched_product->basePrice) ? $fetched_product->basePrice->formattedValue : "N/A";
+            $stock = $fetched_product->stock->stockLevel > 0 ? 1 : 0;
+            $stock_level = $fetched_product->stock->stockLevel ;
+            $url = $item;
+            $code = getStringAfterP2($item);
+            $product_exists = Product::where("code", $code)->first();
+            if ($product_exists)
+                return redirect()->back()->withErrors(["general" => "Product already exists"]);
 
-        $product = Product::create([
-            "name" => $name,
-            "image" => $image,
-            "price" => $price,
-            "stock" => $stock,
-            "site" => 1,
-            "url" => $url,
-            "code" => $code,
-            "stock_level" => $stock_level,
-        ]);
+            $product = Product::create([
+                "name" => $name,
+                "image" => $image,
+                "price" => $price,
+                "stock" => $stock,
+                "site" => 1,
+                "url" => $url,
+                "code" => $code,
+                "stock_level" => $stock_level,
+            ]);
+        }
 
         return redirect()->to('/')
         ->with('success', 'Product added successfuly');
