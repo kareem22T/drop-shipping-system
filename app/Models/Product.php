@@ -16,6 +16,9 @@ class Product extends Model
         'url',
         'site',
         'stock_level',
+        'discount_exp',
+        'discount_value',
+        'value_price',
         'code'
     ];
 
