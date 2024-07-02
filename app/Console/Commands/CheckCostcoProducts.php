@@ -8,6 +8,7 @@ use App\Models\Warning;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use App\Traits\SendEmailTrait;
+use DateTime;
 
 abstract class CheckCostcoProducts extends Command
 {
@@ -93,9 +94,10 @@ abstract class CheckCostcoProducts extends Command
         }
 
         if ($product->discount_value != $discount) {
-            $product->update([
-                'discount_value' => $discount,
-            ]);
+            $changes['discount_value'] = [
+                'old' => $product->discount_value,
+                'new' => $discount
+            ];
         }
 
         if ($product->discount_exp != $discount_exp) {
@@ -103,6 +105,18 @@ abstract class CheckCostcoProducts extends Command
                 'discount_exp' => $discount_exp,
             ]);
         }
+
+        $tomorrow = new DateTime('tomorrow');
+        // Convert the product's discount expiration date to a DateTime object
+        $product_discount_exp = new DateTime($product->discount_exp);
+        // Check if the discount expiration date is tomorrow
+        if ($product_discount_exp->format('Y-m-d') == $tomorrow->format('Y-m-d')) {
+            $changes['exp_warn'] = [
+                'old' => "N\N",
+                'new' => "Tomorrow"
+            ];
+        }
+
 
         if ($product->value_price != $value_price) {
             $product->update([
@@ -138,7 +152,8 @@ abstract class CheckCostcoProducts extends Command
             // Optionally update the product in the database
             $product->update([
                 'price' => $newPrice,
-                'stock' => $newStock
+                'stock' => $newStock,
+                'discount_value' => $discount,
             ]);
         }
     }

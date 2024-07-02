@@ -110,21 +110,49 @@
                 </div>
                 <div class="modal-body" id="warningMessages">
                     @foreach($warnings as $warning)
+                    @if ($warning->change === "exp_warn" )
                         @php
-                            $content = "Product " . "<b>" . $warning->product->name . "</b>" . " " . $warning->change . " has changed from ";
-                            $content .= "<b>";
-                            $content .= $warning->change == "stock" ? ($warning->old == 1 ? "In Stock" : ($warning->old == 2 ? "Managed Stock" : "Out Of Stock")) : $warning->old;
-                            $content .= "</b>";
-                            $content .= " to ";
-                            $content .= "<b>";
-                            $content .= $warning->change == "stock" ? ($warning->new == 1 ? "In Stock" : ($warning->new == 2 ? "Managed Stock" : "Out Of Stock")) : $warning->new;
-                            $content .= "</b>";
-
+                            $content = "Product " . "<b>" . $warning->product->name . "</b>" . " " . " Discount is about to expired ";
                         @endphp
                         <p style="padding: 8px;background: #80808029;font-size: 14px;">
                             {!! $content !!}
                             <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Remove</a>
                         </p>
+                    @else
+                        @if ($warning->change == 'discount_value')
+                            @php
+                                $content = "Product " . "<b>" . $warning->product->name . "</b>" . " " . "Discount Value" . " has changed from ";
+                                $content .= "<b>";
+                                    $content .= $warning->change == "stock" ? ($warning->old == 1 ? "In Stock" : ($warning->old == 2 ? "Managed Stock" : "Out Of Stock")) : $warning->old;
+                                    $content .= "</b>";
+                                    $content .= " to ";
+                                    $content .= "<b>";
+                                        $content .= $warning->change == "stock" ? ($warning->new == 1 ? "In Stock" : ($warning->new == 2 ? "Managed Stock" : "Out Of Stock")) : $warning->new;
+                                        $content .= "</b>";
+
+                                        @endphp
+                            <p style="padding: 8px;background: #80808029;font-size: 14px;">
+                                {!! $content !!}
+                                <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Remove</a>
+                            </p>
+                            @else
+                            @php
+                                $content = "Product " . "<b>" . $warning->product->name . "</b>" . " " . $warning->change . " has changed from ";
+                                $content .= "<b>";
+                                    $content .= $warning->change == "stock" ? ($warning->old == 1 ? "In Stock" : ($warning->old == 2 ? "Managed Stock" : "Out Of Stock")) : $warning->old;
+                                    $content .= "</b>";
+                                    $content .= " to ";
+                                    $content .= "<b>";
+                                        $content .= $warning->change == "stock" ? ($warning->new == 1 ? "In Stock" : ($warning->new == 2 ? "Managed Stock" : "Out Of Stock")) : $warning->new;
+                                        $content .= "</b>";
+
+                                        @endphp
+                            <p style="padding: 8px;background: #80808029;font-size: 14px;">
+                                {!! $content !!}
+                                <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Remove</a>
+                            </p>
+                        @endif
+                    @endif
                     @endforeach
                 </div>
                 <div class="modal-footer">
@@ -205,6 +233,7 @@
                 <th></th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Price</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Value Price</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                     <div class="d-flex align-items-center" style="gap: 8px">
@@ -234,6 +263,8 @@
                         </a>
                     </div>
                     </th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Discount</th>
+                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Discount Expired at</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Code</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Site</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Controls</th>
@@ -249,7 +280,7 @@
                         </div>
                     </td>
                     <td>
-                        <div class="d-flex px-2 py-1">
+                        <div class="d-flex px-2 py-1"style="min-width: 300px;">
                         <div>
                             <img src="{{$product->image}}" class="avatar avatar-lg me-3" alt="user1">
                         </div>
@@ -260,6 +291,9 @@
                     </td>
                     <td>
                         <p class="text-xs font-weight-bold mb-0">{{ $product->price }}</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">{{ $product->value_price }}</p>
                     </td>
                     <td class="align-middle text-center text-sm">
                         @switch($product->stock)
@@ -278,16 +312,24 @@
                         <p class="text-xs font-weight-bold mb-0">{{ $product->stock_level }}</p>
                     </td>
                     <td>
+                        <p class="text-xs font-weight-bold mb-0">{{ $product->discount_value }}</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">{{ $product->discount_exp ? Carbon\Carbon::parse($product->discount_exp)->format('d-m-Y') : '' }}</p>
+                    </td>
+                    <td>
                         <p class="text-xs font-weight-bold mb-0">{{ $product->code }}</p>
                     </td>
                     <td>
                         Costco Uk
                     </td>
                     <td>
-                        <button class="btn btn-danger remove-product" data-product-id="{{ $product->id }}">
-                            Remove
-                        </button>
-                        <a href="{{$product->url}}" target="blanck" class="btn btn-success ml-2">Link</a>
+                        <div class="d-flex" style="gap: 12px">
+                            <button class="btn btn-danger remove-product" data-product-id="{{ $product->id }}">
+                                Remove
+                            </button>
+                            <a href="{{$product->url}}" target="blanck" class="btn btn-success ml-2">Link</a>
+                        </div>
                     </td>
                 </tr>
                 @endforeach

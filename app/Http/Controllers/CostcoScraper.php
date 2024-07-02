@@ -68,8 +68,11 @@ class CostcoScraper extends Controller
                 }
             }
             $price = isset($fetched_product->basePrice) ? $fetched_product->basePrice->formattedValue : "N/A";
+            $value_price = isset($fetched_product->basePrice) ? $fetched_product->basePrice->value : "N/A";
             $stock = $fetched_product->stock->stockLevel > 0 ? 1 : 0;
             $stock_level = $fetched_product->stock->stockLevel ;
+            $discount = isset($fetched_product->couponDiscount) ? $fetched_product->couponDiscount->discountValue : 0;
+            $discount_exp = isset($fetched_product->couponDiscount) ? $fetched_product->couponDiscount->discountEndDate : null;
             $url = $item;
             $code = getStringAfterP2($item);
             $product_exists = Product::where("code", $code)->first();
@@ -80,6 +83,9 @@ class CostcoScraper extends Controller
                 "name" => $name,
                 "image" => $image,
                 "price" => $price,
+                "value_price" => $value_price,
+                "discount_value" => $discount,
+                "discount_exp" => $discount_exp,
                 "stock" => $stock,
                 "site" => 1,
                 "url" => $url,
@@ -105,7 +111,7 @@ class CostcoScraper extends Controller
         } catch (\Exception $e) {
             // Handle the exception if needed
             // For now, let's just log the error
-            \Log::error('Error fetching proxies: ' . $e->getMessage());
+            // Log::error('Error fetching proxies: ' . $e->getMessage());
         }
     }
 

@@ -41,35 +41,75 @@
                     .catch(error => console.error('Error:', error));
             }
             function generateWarningMessage(warning) {
-                let content = "Product <b>" + warning.product.name + "</b> " + warning.change + " has changed from ";
-                content += "<b>";
-                if (warning.change === "stock") {
-                    content += warning.old == 1 ? "In Stock" : (warning.old == 2 ? "Managed Stock" : "Out Of Stock");
-                } else {
-                    content += warning.old;
+                if (warning.change === "exp_warn") {
+                    let content = "Product <b>" + warning.product.name + "</b> " + " discount is about to expired ";
+                    playSound2()
+                    setTimeout(() => {
+                        playSound2()
+                    }, 600);
+                    setTimeout(() => {
+                        playSound2()
+                    }, 1200);
+                    return content ;
                 }
-                content += "</b>";
-                content += " to ";
-                content += "<b>";
-                if (warning.change === "stock") {
-                    content += warning.new == 1 ? "In Stock" : (warning.new == 2 ? "Managed Stock" : "Out Of Stock");
-                } else {
-                    content += warning.new;
+                else {
+                    let content = "Product <b>" + warning.product.name + "</b> " + warning.change + " has changed from ";
+                    if (warning.change === "discount_value") {
+                        content = "Product <b>" + warning.product.name + "</b> " + "Discount Value" + " has changed from ";
+                    }
+                    content += "<b>";
+                    if (warning.change === "stock") {
+                        content += warning.old == 1 ? "In Stock" : (warning.old == 2 ? "Managed Stock" : "Out Of Stock");
+                    } else {
+                        content += warning.old;
+                    }
+                    content += "</b>";
+                    content += " to ";
+                    content += "<b>";
+                    if (warning.change === "stock") {
+                        content += warning.new == 1 ? "In Stock" : (warning.new == 2 ? "Managed Stock" : "Out Of Stock");
+                    } else {
+                        content += warning.new;
+                    }
+                    content += "</b>";
+                    if (warning.change === "stock") {
+                        playSound()
+                        setTimeout(() => {
+                            playSound()
+                        }, 600);
+                        setTimeout(() => {
+                            playSound()
+                        }, 1200);
+                    } else if (warning.change === "price" || warning.change === "discount_value") {
+                        playSound3()
+                        setTimeout(() => {
+                            playSound3()
+                        }, 600);
+                    }
+                    return content ;
                 }
-                content += "</b>";
-                return content ;
+
             }
 
             function showPopup(warnings) {
                 let messages = warnings.map(warning => `<p style="padding: 8px;background: #80808029;font-size: 14px;">${generateWarningMessage(warning)}<a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="${warning.id}">Remove</a></p>`).join('');
                 document.getElementById('warningMessages').innerHTML += messages;
                 $('#warningModal').modal('show');
-                playSound();
             }
 
             function playSound() {
                 let audio = new Audio('/beep-warning-6387.mp3');
                 audio.play().catch(error => console.error('Error playing sound:', error));
+            }
+
+            function playSound2() {
+                let audio1 = new Audio('/warning-sound-6686.mp3');
+                audio1.play().catch(error => console.error('Error playing sound:', error));
+            }
+
+            function playSound3() {
+                let audio2 = new Audio('/severe-warning-alarm-98704.mp3');
+                audio2.play().catch(error => console.error('Error playing sound:', error));
             }
 
             setInterval(checkForWarnings, 3000 * 10); // Check every 5 minutes
@@ -416,19 +456,12 @@
             `).join('');
             document.getElementById('warningMessages').innerHTML += messages;
             $('#warningModal').modal('show');
-            playSound();
-        }
-
-        function playSound() {
-            let audio = new Audio('path/to/your/sound/file.mp3');
-            audio.play().catch(error => console.error('Error playing sound:', error));
         }
 
         $(document).ready(function() {
             // Open the modal on page load if there are warnings
             @if(count($warnings) > 0)
                 $('#warningModalOld').modal('show');
-                playSound();
             @endif
 
             // Remove all warnings
