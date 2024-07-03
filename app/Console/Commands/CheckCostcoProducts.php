@@ -107,8 +107,11 @@ abstract class CheckCostcoProducts extends Command
         }
 
         $tomorrow = new DateTime('tomorrow');
+        $today = new DateTime();
+
         // Convert the product's discount expiration date to a DateTime object
         $product_discount_exp = new DateTime($product->discount_exp);
+
         // Check if the discount expiration date is tomorrow
         if ($product_discount_exp->format('Y-m-d') == $tomorrow->format('Y-m-d')) {
             $changes['exp_warn'] = [
@@ -117,6 +120,17 @@ abstract class CheckCostcoProducts extends Command
             ];
         }
 
+        // Check if the discount expiration date has passed
+        if ($product_discount_exp < $today) {
+            $product->update([
+                'discount_exp' => null,
+                'discount_value' => 0,
+            ]);
+            // $changes['discount_value'] = [
+            //     'old' => $product->discount_value,
+            //     'new' => 0,
+            // ];
+        }
 
         if ($product->value_price != $value_price) {
             $product->update([

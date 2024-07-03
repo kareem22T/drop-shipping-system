@@ -19,12 +19,20 @@ class HomeController extends Controller
             $productsQuery->orderBy('stock_level', 'asc');
         } elseif ($sort == 'stock_level_desc') {
             $productsQuery->orderBy('stock_level', 'desc');
-        } elseif ($search)
+        } elseif ($sort == 'discount_exp_asc') {
+            $productsQuery->orderByRaw('STR_TO_DATE(discount_exp, "%Y-%m-%d") asc');
+        } elseif ($sort == 'discount_exp_desc') {
+            $productsQuery->orderByRaw('STR_TO_DATE(discount_exp, "%Y-%m-%d") desc');
+        } elseif ($sort == 'discount_value_asc') {
+            $productsQuery->orderByRaw('CAST(discount_value AS DECIMAL(10,2)) asc');
+        } elseif ($sort == 'discount_value_desc') {
+            $productsQuery->orderByRaw('CAST(discount_value AS DECIMAL(10,2)) desc');
+        } elseif ($search) {
             $productsQuery
-            ->where('name', 'like', '%' . $search . '%')
-            ->orWhere('code', 'like', '%' . $search . '%')
-            ->orWhere('url', 'like', '%' . $search . '%');
-        else {
+                ->where('name', 'like', '%' . $search . '%')
+                ->orWhere('code', 'like', '%' . $search . '%')
+                ->orWhere('url', 'like', '%' . $search . '%');
+        } else {
             $productsQuery->latest();
         }
 
