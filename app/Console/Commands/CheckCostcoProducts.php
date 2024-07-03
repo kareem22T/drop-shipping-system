@@ -144,20 +144,49 @@ abstract class CheckCostcoProducts extends Command
                     "new" => $change['new'],
                 ]);
 
-                $content = "Product " . "<b>" . $product->name . "</b>" . " " . $key . " has changed from ";
-                $content .= "<b>";
-                $content .= $key == "stock" ? ($change['old'] == 1 ? "In Stock" : ($change['old'] == 2 ? "Managed Stock" : "Out Of Stock")) : $change['old'];
-                $content .= "</b>";
-                $content .= " to ";
-                $content .= "<b>";
-                $content .= $key == "stock" ? ($change['new'] == 1 ? "In Stock" : ($change['new'] == 2 ? "Managed Stock" : "Out Of Stock")) : $change['new'];
-                $content .= "</b>";
-                $content .= "<br>";
-                $content .= "<a href='" . $product->url . "'>";
-                $content .= "Link Here";
-                $content .= "</a>";
+                if ($key === "exp_warn" ) {
+                    $content = "Product " . "<b>" . $product->name . "</b>" . " discount is about to expired";
+                    $content .= "<br>";
+                    $content .= "<a href='" . $product->url . "'>";
+                    $content .= "Link Here";
+                    $content .= "</a>";
 
-                $this->sendEmail("Mohamed.attia1234@outlook.com", "Warning", $content);
+                    $this->sendEmail("Mohamed.attia1234@outlook.com", "Warning", $content);
+
+                }else {
+                    if ($key == 'discount_value') {
+                        $content = "Product " . "<b>" . $product->name . "</b>" . " " . "Discount Value" . " has changed from ";
+                        $content .= "<b>";
+                        $content .= $key == "stock" ? ($change['old'] == 1 ? "In Stock" : ($change['old'] == 2 ? "Managed Stock" : "Out Of Stock")) : $change['old'];
+                        $content .= "</b>";
+                        $content .= " to ";
+                        $content .= "<b>";
+                        $content .= $key == "stock" ? ($change['new'] == 1 ? "In Stock" : ($change['new'] == 2 ? "Managed Stock" : "Out Of Stock")) : $change['new'];
+                        $content .= "</b>";
+                        $content .= "<br>";
+                        $content .= "<a href='" . $product->url . "'>";
+                        $content .= "Link Here";
+                        $content .= "</a>";
+
+                        $this->sendEmail("Mohamed.attia1234@outlook.com", "Warning", $content);
+                    } else {
+                        $content = "Product " . "<b>" . $product->name . "</b>" . " " . $key . " has changed from ";
+                        $content .= "<b>";
+                        $content .= $key == "stock" ? ($change['old'] == 1 ? "In Stock" : ($change['old'] == 2 ? "Managed Stock" : "Out Of Stock")) : $change['old'];
+                        $content .= "</b>";
+                        $content .= " to ";
+                        $content .= "<b>";
+                        $content .= $key == "stock" ? ($change['new'] == 1 ? "In Stock" : ($change['new'] == 2 ? "Managed Stock" : "Out Of Stock")) : $change['new'];
+                        $content .= "</b>";
+                        $content .= "<br>";
+                        $content .= "<a href='" . $product->url . "'>";
+                        $content .= "Link Here";
+                        $content .= "</a>";
+
+                        $this->sendEmail("Mohamed.attia1234@outlook.com", "Warning", $content);
+                    }
+                }
+
             }
             // Optionally update the product in the database
             $product->update([
