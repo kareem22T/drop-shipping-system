@@ -21,6 +21,9 @@
   <link id="pagestyle" href="/assets/css/soft-ui-dashboard.css?v=1.0.7" rel="stylesheet" />
   {{-- <script src="/build/assets/app-CS7l-VsX.js"></script> --}}
   <style>
+    .active .icon {
+        color: #ffffff
+    }
     .page-item.active .page-link {
         color: #ffffff !important
     }
@@ -92,7 +95,7 @@
             }
 
             function showPopup(warnings) {
-                let messages = warnings.map(warning => `<p style="padding: 8px;background: #80808029;font-size: 14px;">${generateWarningMessage(warning)}<a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="${warning.id}">Remove</a></p>`).join('');
+                let messages = warnings.map(warning => `<p style="padding: 8px;background: #80808029;font-size: 14px;">${generateWarningMessage(warning)}<a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="${warning.id}">Hide</a></p>`).join('');
                 document.getElementById('warningMessages').innerHTML += messages;
                 $('#warningModal').modal('show');
             }
@@ -138,7 +141,7 @@
   <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
-      <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html " target="_blank">
+      <a class="navbar-brand m-0" href="/" target="_blank">
         <img src="/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
         <span class="ms-1 font-weight-bold">Drop Shipping Dashboard</span>
       </a>
@@ -147,7 +150,8 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link  active" href="../pages/dashboard.html">
+
+          <a class="nav-link  @yield("dash_active")" href="/">
             <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
               <svg width="12px" height="12px" viewBox="0 0 45 40" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <title>shop </title>
@@ -164,6 +168,17 @@
               </svg>
             </div>
             <span class="nav-link-text ms-1">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link   @yield("warn_active")" href="/warnings">
+            <div class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-alert-triangle-filled" style="padding: 0" width="20" height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="#cb0c9f" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M12 1.67c.955 0 1.845 .467 2.39 1.247l.105 .16l8.114 13.548a2.914 2.914 0 0 1 -2.307 4.363l-.195 .008h-16.225a2.914 2.914 0 0 1 -2.582 -4.2l.099 -.185l8.11 -13.538a2.914 2.914 0 0 1 2.491 -1.403zm.01 13.33l-.127 .007a1 1 0 0 0 0 1.986l.117 .007l.127 -.007a1 1 0 0 0 0 -1.986l-.117 -.007zm-.01 -7a1 1 0 0 0 -.993 .883l-.007 .117v4l.007 .117a1 1 0 0 0 1.986 0l.007 -.117v-4l-.007 -.117a1 1 0 0 0 -.993 -.883z" stroke-width="0" fill="currentColor" />
+                </svg>
+            </div>
+            <span class="nav-link-text ms-1">Warnings</span>
           </a>
         </li>
       </ul>
@@ -451,7 +466,7 @@
             let messages = warnings.map(warning => `
                 <p style="padding: 8px;background: #80808029;font-size: 14px;">
                     ${generateWarningMessage(warning)}
-                    <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" data-warning-id="${warning.id}">Remove</a>
+                    <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" data-warning-id="${warning.id}">Hide</a>
                 </p>
             `).join('');
             document.getElementById('warningMessages').innerHTML += messages;
@@ -460,11 +475,11 @@
 
         $(document).ready(function() {
             // Open the modal on page load if there are warnings
-            @if(count($warnings) > 0)
+            @if(isset($warnings) && count($warnings) > 0)
                 $('#warningModalOld').modal('show');
             @endif
 
-            // Remove all warnings
+            // Hide all warnings
             $('#removeAllWarningsButton').click(function() {
                 // Make an AJAX request to remove all warnings
                 if ( confirm("Are Your sure to remove all warnings") )
@@ -482,7 +497,7 @@
                     window.location.href = `/remove-product?id=${$(this).attr("data-product-id")}`
             });
         });
-        $(".closeOld").on("click", function () {
+        $(document).on("click", ".closeOld", function () {
             $('#warningModalOld').modal('hide');
         })
         $(".closeNew").on("click", function () {

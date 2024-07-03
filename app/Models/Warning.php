@@ -12,6 +12,7 @@ class Warning extends Model
         'product_id',
         'change',
         'old',
+        'hide',
         'new'
     ];
 

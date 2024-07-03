@@ -1,6 +1,7 @@
 @extends("layout.main")
 
 @section("title", "Dashboard")
+@section("dash_active", "active")
 
 @section("content")
 <div id="dash_wrapper">
@@ -95,7 +96,7 @@
     </div>
   </div>
   @php
-      $warnings = App\Models\Warning::all();
+      $warnings = App\Models\Warning::where("hide", false)->get();
   @endphp
       <!-- Modal HTML -->
       @if($warnings->count() > 0)
@@ -116,7 +117,7 @@
                         @endphp
                         <p style="padding: 8px;background: #80808029;font-size: 14px;">
                             {!! $content !!}
-                            <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Remove</a>
+                            <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Hide</a>
                         </p>
                     @else
                         @if ($warning->change == 'discount_value')
@@ -133,7 +134,7 @@
                                         @endphp
                             <p style="padding: 8px;background: #80808029;font-size: 14px;">
                                 {!! $content !!}
-                                <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Remove</a>
+                                <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Hide</a>
                             </p>
                             @else
                             @php
@@ -149,14 +150,14 @@
                                         @endphp
                             <p style="padding: 8px;background: #80808029;font-size: 14px;">
                                 {!! $content !!}
-                                <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Remove</a>
+                                <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Hide</a>
                             </p>
                         @endif
                     @endif
                     @endforeach
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" id="removeAllWarningsButton">Remove All</button>
+                    <button type="button" class="btn btn-danger" id="removeAllWarningsButton">Hide All</button>
                     <button type="button" class="btn btn-secondary closeOld" data-dismiss="modal">Close</button>
                 </div>
             </div>
@@ -176,7 +177,7 @@
             @csrf
             <div class="modal-body">
                 <div class="form-group" v-for="(item, index) in urls" :key="index">
-                    <label for="">Url <span v-if="index != 0" @click="removeUrl(index)" class="text-danger" style="cursor: pointer"> Remove</span></label>
+                    <label for="">Url <span v-if="index != 0" @click="removeUrl(index)" class="text-danger" style="cursor: pointer"> Hide</span></label>
                     <input type="text" name="url[]" id="url" placeholder="Product Url" class="form-control">
                 </div>
                 <button class="btn btn-success w-100" @click.prevent="this.urls.push([''])">Add Another url</button>
@@ -380,7 +381,7 @@
                     <td>
                         <div class="d-flex" style="gap: 12px">
                             <button class="btn btn-danger remove-product" data-product-id="{{ $product->id }}">
-                                Remove
+                                Hide
                             </button>
                             <a href="{{$product->url}}" target="blanck" class="btn btn-success ml-2">Link</a>
                         </div>

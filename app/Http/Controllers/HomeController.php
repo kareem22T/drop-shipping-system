@@ -50,7 +50,7 @@ class HomeController extends Controller
     {
         $lastChecked = $request->query('lastChecked');
 
-        $warnings = Warning::with("product")->where('created_at', '>', $lastChecked)->get();
+        $warnings = Warning::with("product")->where('created_at', '>', $lastChecked)->where("hide", false)->get();
 
         return response()->json($warnings);
     }
@@ -59,7 +59,8 @@ class HomeController extends Controller
         $id = $request->query('id');
 
         $warning = Warning::find($id);
-        $warning->delete();
+        $warning->hide = true;
+        $warning->save();
 
         return response()->json([
             "status" => true
@@ -67,8 +68,11 @@ class HomeController extends Controller
     }
     public function destroyAll()
     {
-        Warning::truncate();
-
+        $warnings = Warning::all();
+        foreach ($warnings as $warning) {
+            $warning->hide = true;
+            $warning->save();
+        }
         return response()->json([
             "status" => true
         ]);
@@ -90,5 +94,9 @@ class HomeController extends Controller
 
         return redirect()->back()
         ->with('success', 'Products deleted successfuly');
+    }
+
+    public function warningsIndex() {
+        return view("notifications");
     }
 }

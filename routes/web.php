@@ -8,6 +8,7 @@ Route::get('/', [HomeController::class, "dahsboardIndex"]);
 Route::post("/store-product", [HomeController::class, "storeProduct"])->name("product.store");
 Route::get("/check-warnings", [HomeController::class, "checkWarnings"]);
 Route::get("/delete-warning", [HomeController::class, "removeWarning"]);
+Route::get("/warnings", [HomeController::class, "warningsIndex"]);
 
 Route::get("/costco/get-product", [CostcoScraper::class, "fetchProduct"]);
 Route::post("/costco/add-product", [CostcoScraper::class, "insertProduct"]);
