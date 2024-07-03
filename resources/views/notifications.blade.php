@@ -13,9 +13,9 @@
         @php
             $content = "Product " . "<b>" . $warning->product->name . "</b>" . " " . " Discount is about to expired ";
         @endphp
-        <p style="padding: 8px;background: #80808029;font-size: 14px;">
+        <p style="padding: 8px;background: #80808029;font-size: 14px;display: grid;justify-content: space-between;align-items: center;gap: 16px;grid-template-columns: repeat(7, 1fr)">
             {!! $content !!}
-
+            <a href="{{$warning->product->url}}" target="_blank" class="btn btn-sm btn-success m-0 m-0">Show Product</a>
         </p>
     @else
         @if ($warning->change == 'discount_value')
@@ -30,9 +30,9 @@
                         $content .= "</b>";
 
                         @endphp
-            <p style="padding: 8px;background: #80808029;font-size: 14px;">
+            <p style="padding: 8px;background: #80808029;font-size: 14px;display: grid;justify-content: space-between;align-items: center;gap: 16px;grid-template-columns: repeat(7, 1fr)">
                 {!! $content !!}
-
+                <a href="{{$warning->product->url}}" target="_blank" class="btn btn-sm btn-success m-0 m-0">Show Product</a>
             </p>
             @else
             @php
@@ -46,9 +46,9 @@
                         $content .= "</b>";
 
                         @endphp
-            <p style="padding: 8px;background: #80808029;font-size: 14px;">
+            <p style="padding: 8px;background: #80808029;font-size: 14px;display: grid;justify-content: space-between;align-items: center;gap: 16px;grid-template-columns: repeat(7, 1fr)">
                 {!! $content !!}
-
+                <a href="{{$warning->product->url}}" target="_blank" class="btn btn-sm btn-success m-0 m-0">Show Product</a>
             </p>
         @endif
     @endif
