@@ -126,10 +126,6 @@ abstract class CheckCostcoProducts extends Command
                 'discount_exp' => null,
                 'discount_value' => 0,
             ]);
-            $changes['discount_value'] = [
-                'old' => $product->discount_value,
-                'new' => 0,
-            ];
         }
 
         if ($product->value_price != $value_price) {
