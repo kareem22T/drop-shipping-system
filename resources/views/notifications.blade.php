@@ -15,7 +15,7 @@
         @endphp
         <p style="padding: 8px;background: #80808029;font-size: 14px;display: grid;justify-content: space-between;align-items: center;gap: 16px;grid-template-columns: repeat(8, 1fr)">
             {!! $content !!}
-            <a href="/warning/delete/{{$warning->id}}" target="_blank" class="btn btn-sm btn-danger m-0 m-0">Delete warning</a>
+            <a href="/warning/delete/{{$warning->id}}" class="btn btn-sm btn-danger m-0 m-0">Delete warning</a>
             <a href="{{$warning->product->url}}" target="_blank" class="btn btn-sm btn-success m-0 m-0">Show Product</a>
         </p>
     @else
@@ -33,7 +33,7 @@
                         @endphp
             <p style="padding: 8px;background: #80808029;font-size: 14px;display: grid;justify-content: space-between;align-items: center;gap: 16px;grid-template-columns: repeat(8, 1fr)">
                 {!! $content !!}
-                <a href="/warning/delete/{{$warning->id}}" target="_blank" class="btn btn-sm btn-danger m-0 m-0">Delete warning</a>
+                <a href="/warning/delete/{{$warning->id}}" class="btn btn-sm btn-danger m-0 m-0">Delete warning</a>
                 <a href="{{$warning->product->url}}" target="_blank" class="btn btn-sm btn-success m-0 m-0">Show Product</a>
             </p>
             @else
@@ -50,7 +50,7 @@
                         @endphp
             <p style="padding: 8px;background: #80808029;font-size: 14px;display: grid;justify-content: space-between;align-items: center;gap: 16px;grid-template-columns: repeat(8, 1fr)">
                 {!! $content !!}
-                <a href="/warning/delete/{{$warning->id}}" target="_blank" class="btn btn-sm btn-danger m-0 m-0">Delete warning</a>
+                <a href="/warning/delete/{{$warning->id}}" class="btn btn-sm btn-danger m-0 m-0">Delete warning</a>
                 <a href="{{$warning->product->url}}" target="_blank" class="btn btn-sm btn-success m-0 m-0">Show Product</a>
             </p>
         @endif
