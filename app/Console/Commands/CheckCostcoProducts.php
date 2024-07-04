@@ -80,7 +80,7 @@ abstract class CheckCostcoProducts extends Command
             ];
         }
 
-        if ($product->stock != $newStock) {
+        if ((int) $product->stock != (int) $newStock) {
             $changes['stock'] = [
                 'old' => $product->stock,
                 'new' => $newStock
