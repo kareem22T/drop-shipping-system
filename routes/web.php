@@ -9,7 +9,7 @@ Route::post("/store-product", [HomeController::class, "storeProduct"])->name("pr
 Route::get("/check-warnings", [HomeController::class, "checkWarnings"]);
 Route::get("/delete-warning", [HomeController::class, "removeWarning"]);
 Route::get("/warnings", [HomeController::class, "warningsIndex"]);
-Route::get("/warning/delete/{$id}", [HomeController::class, "removeWarningEver"]);
+Route::get("/warning/delete/{id}", [HomeController::class, "removeWarningEver"]);
 
 Route::get("/costco/get-product", [CostcoScraper::class, "fetchProduct"]);
 Route::post("/costco/add-product", [CostcoScraper::class, "insertProduct"]);
