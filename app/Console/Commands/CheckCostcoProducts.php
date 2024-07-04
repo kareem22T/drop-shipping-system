@@ -93,7 +93,7 @@ abstract class CheckCostcoProducts extends Command
             ]);
         }
 
-        if ((int) $product->discount_value != (int) $discount) {
+        if ((float) $product->discount_value != (float) $discount) {
             $changes['discount_value'] = [
                 'old' => $product->discount_value,
                 'new' => $discount
