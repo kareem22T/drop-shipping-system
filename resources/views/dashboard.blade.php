@@ -177,7 +177,7 @@
             @csrf
             <div class="modal-body">
                 <div class="form-group" v-for="(item, index) in urls" :key="index">
-                    <label for="">Url <span v-if="index != 0" @click="removeUrl(index)" class="text-danger" style="cursor: pointer"> Hide</span></label>
+                    <label for="">Url <span v-if="index != 0" @click="removeUrl(index)" class="text-danger" style="cursor: pointer"> Remove</span></label>
                     <input type="text" name="url[]" id="url" placeholder="Product Url" class="form-control">
                 </div>
                 <button class="btn btn-success w-100" @click.prevent="this.urls.push([''])">Add Another url</button>
@@ -381,7 +381,7 @@
                     <td>
                         <div class="d-flex" style="gap: 12px">
                             <button class="btn btn-danger remove-product" data-product-id="{{ $product->id }}">
-                                Hide
+                                Delete
                             </button>
                             <a href="{{$product->url}}" target="blanck" class="btn btn-success ml-2">Link</a>
                         </div>

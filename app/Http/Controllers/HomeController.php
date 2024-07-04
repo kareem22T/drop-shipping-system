@@ -66,6 +66,12 @@ class HomeController extends Controller
             "status" => true
         ]);
     }
+    public function removeWarningEver($id)
+    {
+        $warning = Warning::find($id);
+        $warning->delete();
+        return redirect()->back();
+    }
     public function destroyAll()
     {
         $warnings = Warning::all();
