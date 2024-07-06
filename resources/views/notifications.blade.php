@@ -5,7 +5,7 @@
 
 @section("content")
 @php
-    $notifications = App\Models\Warning::paginate(20);
+    $notifications = App\Models\Warning::orderBy("id", "desc")->paginate(20);
 @endphp
 <div>
     @foreach($notifications as $warning)
