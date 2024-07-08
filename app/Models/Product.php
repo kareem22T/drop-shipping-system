@@ -28,4 +28,14 @@ class Product extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
+
+    /**
+     * Get all of the comments for the Product
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function warnings()
+    {
+        return $this->hasMany('App\Models\Warning', 'product_id');
+    }
 }

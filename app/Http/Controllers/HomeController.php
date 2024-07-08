@@ -85,6 +85,10 @@ class HomeController extends Controller
     }
     public function removeProduct(Request $request) {
         $product = Product::find($request->id);
+        $warnings = $product->warnings()->get();
+        foreach ($warnings as $warning) {
+            $warning->delete();
+        }
         $product->delete();
 
         return redirect()->back()
@@ -95,6 +99,10 @@ class HomeController extends Controller
         $products = $request->input("products", []);
         foreach ($products as $id) {
             $product = Product::find($id);
+            $warnings = $product->warnings()->get();
+            foreach ($warnings as $warning) {
+                $warning->delete();
+            }
             $product->delete();
         }
 

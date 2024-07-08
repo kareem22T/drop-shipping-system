@@ -39,6 +39,22 @@
                 <a href="/warning/delete/{{$warning->id}}" class="btn btn-sm btn-danger m-0 m-0">Delete warning</a>
                 <a href="{{$warning->product->url}}" target="_blank" class="btn btn-sm btn-success m-0 m-0">Show Product</a>
             </p>
+        @elseif ($warning->change == 'existance')
+            @php
+                                $content = "Product " . "<b>" . $warning->product->name . "</b>" .  " Availability has changed from ";
+                                $content .= "<b>";
+                                    $content .= $warning->old == 1 ? "Avilable" : "Unavilable";
+                                    $content .= "</b>";
+                                    $content .= " to ";
+                                    $content .= "<b>";
+                                        $content .= $warning->new == 1 ? "Avilable" : "Unavilable";
+                                        $content .= "</b>";
+                        @endphp
+            <p style="padding: 8px;background: #80808029;font-size: 14px;display: grid;justify-content: space-between;align-items: center;gap: 16px;grid-template-columns: repeat(8, 1fr)">
+                {!! $content !!}
+                <a href="/warning/delete/{{$warning->id}}" class="btn btn-sm btn-danger m-0 m-0">Delete warning</a>
+                <a href="{{$warning->product->url}}" target="_blank" class="btn btn-sm btn-success m-0 m-0">Show Product</a>
+            </p>
             @else
             @php
                 $content = "Product " . "<b>" . $warning->product->name . "</b>" . " " . $warning->change . " has changed from ";

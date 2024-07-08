@@ -47,12 +47,13 @@
                 if (warning.change === "exp_warn") {
                     let content = "Product <b>" + warning.product.name + "</b> " + " discount is about to expired ";
                     playSound2()
-                    setTimeout(() => {
-                        playSound2()
-                    }, 600);
-                    setTimeout(() => {
-                        playSound2()
-                    }, 1200);
+                    return content ;
+                } else if (warning.change == "existance") {
+                    let content = "Product <b>" + warning.product.name + "</b> " +  " availability has changed from ";
+                    content += warning.old == 1 ? "<b>available</b>" : "<b>unavailable</b>";
+                    content += " to "
+                    content += warning.new == 1 ? "<b>available</b>" : "<b>unavailable</b>";
+                    playSound4()
                     return content ;
                 }
                 else {
@@ -77,17 +78,10 @@
                     content += "</b>";
                     if (warning.change === "stock") {
                         playSound()
-                        setTimeout(() => {
-                            playSound()
-                        }, 600);
-                        setTimeout(() => {
-                            playSound()
-                        }, 1200);
-                    } else if (warning.change === "price" || warning.change === "discount_value") {
+                    } else if (warning.change === "price") {
                         playSound3()
-                        setTimeout(() => {
-                            playSound3()
-                        }, 600);
+                    }else if (warning.change === "discount_value") {
+                        playSound2()
                     }
                     return content ;
                 }
@@ -101,21 +95,26 @@
             }
 
             function playSound() {
-                let audio = new Audio('/beep-warning-6387.mp3');
+                let audio = new Audio('/stock.mp3');
                 audio.play().catch(error => console.error('Error playing sound:', error));
             }
 
             function playSound2() {
-                let audio1 = new Audio('/warning-sound-6686.mp3');
+                let audio1 = new Audio('/discount.mp3');
                 audio1.play().catch(error => console.error('Error playing sound:', error));
             }
 
             function playSound3() {
-                let audio2 = new Audio('/severe-warning-alarm-98704.mp3');
+                let audio2 = new Audio('/price.mp3');
                 audio2.play().catch(error => console.error('Error playing sound:', error));
             }
 
-            setInterval(checkForWarnings, 3000 * 10); // Check every 5 minutes
+            function playSound4() {
+                let audio2 = new Audio('/existance.mp3');
+                audio2.play().catch(error => console.error('Error playing sound:', error));
+            }
+
+            setInterval(checkForWarnings, 300 * 10); // Check every 5 minutes
         });
     </script>
 </head>

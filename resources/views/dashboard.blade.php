@@ -136,8 +136,24 @@
                                 {!! $content !!}
                                 <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Hide</a>
                             </p>
+                        @elseif ($warning->change == 'existance')
+                             @php
+                                $content = "Product " . "<b>" . $warning->product->name . "</b>" .  " Availability has changed from ";
+                                $content .= "<b>";
+                                    $content .= $warning->old == 1 ? "Avilable" : "Unavilable";
+                                    $content .= "</b>";
+                                    $content .= " to ";
+                                    $content .= "<b>";
+                                        $content .= $warning->new == 1 ? "Avilable" : "Unavilable";
+                                        $content .= "</b>";
+
+                                        @endphp
+                            <p style="padding: 8px;background: #80808029;font-size: 14px;">
+                                {!! $content !!}
+                                <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Hide</a>
+                            </p>
                             @else
-                            @php
+                        @php
                                 $content = "Product " . "<b>" . $warning->product->name . "</b>" . " " . $warning->change . " has changed from ";
                                 $content .= "<b>";
                                     $content .= $warning->change == "stock" ? ($warning->old == 1 ? "In Stock" : ($warning->old == 2 ? "Managed Stock" : "Out Of Stock")) : $warning->old;
@@ -264,6 +280,7 @@
                         </a>
                     </div>
                     </th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Availability</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                     <div class="d-flex align-items-center" style="gap: 8px">
                         Discount Value
@@ -365,6 +382,9 @@
                     </td>
                     <td>
                         <p class="text-xs font-weight-bold mb-0">{{ $product->stock_level }}</p>
+                    </td>
+                    <td>
+                        <p class="text-xs font-weight-bold mb-0">{{ $product->existance == 1 ? "Avilable" : "Unavilable" }}</p>
                     </td>
                     <td>
                         <p class="text-xs font-weight-bold mb-0">{{ $product->discount_value }}</p>
