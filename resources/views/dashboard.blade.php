@@ -280,7 +280,32 @@
                         </a>
                     </div>
                     </th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Availability</th>
+                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                    Availability
+                    <a href="{{ request()->fullUrlWithQuery(['sort' => $sort == 'avaliable_value_asc' ? 'avaliable_value_desc' : ($sort == 'latest' ? 'avaliable_value_asc' : "latest")]) }}" class="btn btn-sm m-0 btn-link p-0">
+                        @if($sort == 'avaliable_value_asc')
+                            <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrow-narrow-up" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 5l0 14" />
+                            <path d="M16 9l-4 -4" />
+                            <path d="M8 9l4 -4" />
+                          </svg>
+                        @elseif($sort == 'avaliable_value_desc')
+                            <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrow-narrow-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M12 5l0 14" />
+                            <path d="M16 15l-4 4" />
+                            <path d="M8 15l4 4" />
+                          </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrows-sort" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                            <path d="M3 9l4 -4l4 4m-4 -4v14" />
+                            <path d="M21 15l-4 4l-4 -4m4 4v-14" />
+                          </svg>
+                        @endif
+                    </a>
+                  </th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                     <div class="d-flex align-items-center" style="gap: 8px">
                         Discount Value

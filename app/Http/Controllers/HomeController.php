@@ -19,6 +19,10 @@ class HomeController extends Controller
             $productsQuery->orderBy('stock_level', 'asc');
         } elseif ($sort == 'stock_level_desc') {
             $productsQuery->orderBy('stock_level', 'desc');
+        }else if ($sort == 'avaliable_value_asc') {
+            $productsQuery->orderBy('existance', 'asc');
+        } elseif ($sort == 'avaliable_value_desc') {
+            $productsQuery->orderBy('existance', 'desc');
         } elseif ($sort == 'discount_exp_asc') {
             $productsQuery->orderByRaw('STR_TO_DATE(discount_exp, "%Y-%m-%d") asc');
         } elseif ($sort == 'discount_exp_desc') {
