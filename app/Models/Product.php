@@ -19,6 +19,7 @@ class Product extends Model
         'discount_exp',
         'discount_value',
         'value_price',
+        'existance',
         'code'
     ];
 

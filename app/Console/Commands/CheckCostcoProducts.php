@@ -41,10 +41,12 @@ abstract class CheckCostcoProducts extends Command
 
         try {
             $response = $client->request('GET', $url, $options);
-            return json_decode($response->getBody());
+            $statusCode = $response->getStatusCode();
+            return ['product' => json_decode($response->getBody()), 'statusCode' => $statusCode];
         } catch (\Exception $e) {
+            $statusCode = $e->getCode();
             Log::error('Error fetching product: ' . $e->getMessage());
-            return null;
+            return ['product' => null, 'statusCode' => $statusCode];
         }
     }
 
@@ -56,7 +58,17 @@ abstract class CheckCostcoProducts extends Command
 
     protected function checkProductChanges($product)
     {
-        $fetched_product = $this->fetchProduct($product->url);
+        $fetchedData = $this->fetchProduct($product->url);
+        $fetched_product = $fetchedData['product'];
+        $statusCode = $fetchedData['statusCode'];
+
+        if ($statusCode == 404) {
+            $product->update(['existance' => false]);
+            Log::info("Product {$product->id} does not exist.");
+            return;
+        } elseif ($statusCode == 200) {
+            $product->update(['existance' => true]);
+        }
 
         if (!$fetched_product) {
             Log::error("Failed to refetch product: {$product->id}");
