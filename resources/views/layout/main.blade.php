@@ -115,7 +115,7 @@
                 audio2.play().catch(error => console.error('Error playing sound:', error));
             }
 
-            setInterval(checkForWarnings, 300 * 10); // Check every 5 minutes
+            setInterval(checkForWarnings, 3000 * 10); // Check every 5 minutes
         });
     </script>
 </head>
