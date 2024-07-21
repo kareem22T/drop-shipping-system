@@ -31,7 +31,7 @@ class AmazonController extends Controller
         $quantityText = $quantityElement->count() > 0 ? $quantityElement->text() : 'Quantity not found';
 
         // Use the XPath you copied for price
-        $priceXPath = '//*[@id="price"]'; // replace with your copied XPath
+        $priceXPath = '//*[@id="priceValue"]'; // replace with your copied XPath
         $priceElement = $crawler->filterXPath($priceXPath);
         $priceText = $priceElement->count() > 0 ? $priceElement->attr("value") : 'Price not found';
 
