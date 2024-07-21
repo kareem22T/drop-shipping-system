@@ -45,20 +45,20 @@ abstract class CheckAmazonProducts extends Command
         // Use the XPath you copied for quantity
         $quantityXPath = '//*[@id="availability"]/span'; // replace with your copied XPath
         $quantityElement = $crawler->filterXPath($quantityXPath);
-        $quantityText = $quantityElement ? $quantityElement->text() : 'Quantity not found';
+        $quantityText = $quantityElement->count() > 0 ? $quantityElement->text() : 'Quantity not found';
 
         // Use the XPath you copied for price
         $priceXPath = '//*[@id="priceValue"]'; // replace with your copied XPath
         $priceElement = $crawler->filterXPath($priceXPath);
-        $priceText = $priceElement ? $priceElement->attr("value") : 'Price not found';
+        $priceText = $priceElement->count() > 0 ? $priceElement->attr("value") : 'Price not found';
 
         $ImageXPath = '//*[@id="landingImage"]'; // replace with your copied XPath
         $ImageElement = $crawler->filterXPath($ImageXPath);
-        $ImageText = $ImageElement ? $ImageElement->attr("src") : 'img not found';
+        $ImageText = $ImageElement->count() > 0 ? $ImageElement->attr("src") : 'img not found';
 
         $titleXPath = '//*[@id="title"]'; // replace with your copied XPath
         $titleElement = $crawler->filterXPath($titleXPath);
-        $titleText = $titleElement ? $titleElement->text() : '#title not found';
+        $titleText = $titleElement->count() > 0 ? $titleElement->text() : '#title not found';
 
         // Return the scraped data as JSON
         return [
