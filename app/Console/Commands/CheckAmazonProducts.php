@@ -48,7 +48,7 @@ abstract class CheckAmazonProducts extends Command
         $quantityText = $quantityElement->count() > 0 ? $quantityElement->text() : 'Quantity not found';
 
         // Use the XPath you copied for price
-        $priceXPath = '//*[@id="priceValue"]'; // replace with your copied XPath
+        $priceXPath = '//*[@id="twister-plus-price-data-price"]'; // replace with your copied XPath
         $priceElement = $crawler->filterXPath($priceXPath);
         $priceText = $priceElement->count() > 0 ? $priceElement->attr("value") : 'Price not found';
 
