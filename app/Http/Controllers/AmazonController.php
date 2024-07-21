@@ -32,7 +32,7 @@ class AmazonController extends Controller
 
         // Use the XPath you copied for price
         $priceXPath = '//*[@id="priceValue"]'; // replace with your copied XPath
-        $priceElement = $crawler->filterXPath($priceXPath);
+        return $priceElement = $crawler->filterXPath($priceXPath);
         $priceText = $priceElement ? $priceElement->attr("value") : 'Price not found';
 
         $ImageXPath = '//*[@id="landingImage"]'; // replace with your copied XPath
