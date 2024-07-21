@@ -14,9 +14,6 @@ class AmazonController extends Controller
     private static function fetchProduct($url)
     {
         $client = HttpClient::create([
-            'headers' => [
-                'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-            ]
         ]);
         // Make a request to fetch the HTML content
         $response = $client->request('GET', $url);
