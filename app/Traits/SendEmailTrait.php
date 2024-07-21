@@ -43,7 +43,8 @@ trait SendEmailTrait
             $mail->SMTPDebug = 0;
         } catch (Exception $e) {
             return [
-                'status' => 500
+                'status' => 500,
+                'error' => $mail->ErrorInfo
             ];
         }
     }

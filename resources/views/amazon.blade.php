@@ -1,7 +1,7 @@
 @extends("layout.main")
 
 @section("title", "Dashboard")
-@section("dash_active", "active")
+@section("amaz_active", "active")
 
 @section("content")
 <div id="dash_wrapper">
@@ -169,7 +169,7 @@
                                         @endphp
                             <p style="padding: 8px;background: #80808029;font-size: 14px;">
                                 {!! $content !!}
-                               <span class="text-primary" style="padding: 0 12px;font-weight: bold;" >{{ $warning->product->site == 1 ? "Costco UK" : "Amazon UK" }}</span>
+                                <span class="text-primary" style="padding: 0 12px;font-weight: bold;" >{{ $warning->product->site == 1 ? "Costco UK" : "Amazon UK" }}</span>
                                 <a href="" class="text-danger bold remove_warning" style="padding: 0 12px;font-weight: bold;" warning_id="{{ $warning->id }}">Hide</a>
                             </p>
                         @endif
@@ -202,9 +202,9 @@
                 </div>
                 <button class="btn btn-success w-100" @click.prevent="this.urls.push([''])">Add Another url</button>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="site" value="1" checked id="flexRadioDefault1">
+                    <input class="form-check-input" type="radio" name="site" value="2" checked id="flexRadioDefault1">
                     <label class="form-check-label" for="flexRadioDefault1">
-                      Costco UK
+                      Amazon UK
                     </label>
                   </div>
             </div>
@@ -254,119 +254,7 @@
                 <th></th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Product</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Price</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Value Price</th>
                   <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Stock</th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                    <div class="d-flex align-items-center" style="gap: 8px">
-                        Stock Level
-                        <a href="{{ request()->fullUrlWithQuery(['sort' => $sort == 'stock_level_asc' ? 'stock_level_desc' : ($sort == 'latest' ? 'stock_level_asc' : "latest")]) }}" class="btn btn-sm m-0 btn-link p-0">
-                            @if($sort == 'stock_level_asc')
-                                <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrow-narrow-up" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 5l0 14" />
-                                <path d="M16 9l-4 -4" />
-                                <path d="M8 9l4 -4" />
-                              </svg>
-                            @elseif($sort == 'stock_level_desc')
-                                <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrow-narrow-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 5l0 14" />
-                                <path d="M16 15l-4 4" />
-                                <path d="M8 15l4 4" />
-                              </svg>
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrows-sort" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M3 9l4 -4l4 4m-4 -4v14" />
-                                <path d="M21 15l-4 4l-4 -4m4 4v-14" />
-                              </svg>
-                            @endif
-                        </a>
-                    </div>
-                    </th>
-                  <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                    Availability
-                    <a href="{{ request()->fullUrlWithQuery(['sort' => $sort == 'avaliable_value_asc' ? 'avaliable_value_desc' : ($sort == 'latest' ? 'avaliable_value_asc' : "latest")]) }}" class="btn btn-sm m-0 btn-link p-0">
-                        @if($sort == 'avaliable_value_asc')
-                            <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrow-narrow-up" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M12 5l0 14" />
-                            <path d="M16 9l-4 -4" />
-                            <path d="M8 9l4 -4" />
-                          </svg>
-                        @elseif($sort == 'avaliable_value_desc')
-                            <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrow-narrow-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M12 5l0 14" />
-                            <path d="M16 15l-4 4" />
-                            <path d="M8 15l4 4" />
-                          </svg>
-                        @else
-                            <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrows-sort" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M3 9l4 -4l4 4m-4 -4v14" />
-                            <path d="M21 15l-4 4l-4 -4m4 4v-14" />
-                          </svg>
-                        @endif
-                    </a>
-                  </th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                    <div class="d-flex align-items-center" style="gap: 8px">
-                        Discount Value
-                        <a href="{{ request()->fullUrlWithQuery(['sort' => $sort == 'discount_value_asc' ? 'discount_value_desc' : ($sort == 'latest' ? 'discount_value_asc' : "latest")]) }}" class="btn btn-sm m-0 btn-link p-0">
-                            @if($sort == 'discount_value_asc')
-                                <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrow-narrow-up" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 5l0 14" />
-                                <path d="M16 9l-4 -4" />
-                                <path d="M8 9l4 -4" />
-                              </svg>
-                            @elseif($sort == 'discount_value_desc')
-                                <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrow-narrow-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 5l0 14" />
-                                <path d="M16 15l-4 4" />
-                                <path d="M8 15l4 4" />
-                              </svg>
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrows-sort" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M3 9l4 -4l4 4m-4 -4v14" />
-                                <path d="M21 15l-4 4l-4 -4m4 4v-14" />
-                              </svg>
-                            @endif
-                        </a>
-                    </div>
-                </th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                    <div class="d-flex align-items-center" style="gap: 8px">
-                        Discount Expired at
-                        <a href="{{ request()->fullUrlWithQuery(['sort' => $sort == 'discount_exp_asc' ? 'discount_exp_desc' : ($sort == 'latest' ? 'discount_exp_asc' : "latest")]) }}" class="btn btn-sm m-0 btn-link p-0">
-                            @if($sort == 'discount_exp_asc')
-                                <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrow-narrow-up" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 5l0 14" />
-                                <path d="M16 9l-4 -4" />
-                                <path d="M8 9l4 -4" />
-                              </svg>
-                            @elseif($sort == 'discount_exp_desc')
-                                <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrow-narrow-down" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M12 5l0 14" />
-                                <path d="M16 15l-4 4" />
-                                <path d="M8 15l4 4" />
-                              </svg>
-                            @else
-                                <svg xmlns="http://www.w3.org/2000/svg" style="stroke: black !important; width: 18px !important; height: 18px !important" class="icon icon-tabler icon-tabler-arrows-sort" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                <path d="M3 9l4 -4l4 4m-4 -4v14" />
-                                <path d="M21 15l-4 4l-4 -4m4 4v-14" />
-                              </svg>
-                            @endif
-                        </a>
-                    </div>
-                </th>
-                  <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Code</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Site</th>
                   <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Controls</th>
                 </tr>
@@ -393,15 +281,9 @@
                     <td>
                         <p class="text-xs font-weight-bold mb-0">{{ $product->price }}</p>
                     </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ $product->value_price }}</p>
-                    </td>
                     <td class="align-middle text-center text-sm">
                         @switch($product->stock)
-                            @case(1)
-                                <span class="badge badge-sm bg-gradient-success">In Stock</span>
-                                @break
-                            @case(2)
+                            @case('In stock')
                                 <span class="badge badge-sm bg-gradient-success">In Stock</span>
                                 @break
                             @default
@@ -410,22 +292,7 @@
                         @endswitch
                     </td>
                     <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ $product->stock_level }}</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ $product->existance == 1 ? "Avilable" : "Unavilable" }}</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ $product->discount_value }}</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ $product->discount_exp ? Carbon\Carbon::parse($product->discount_exp)->format('d-m-Y') : '' }}</p>
-                    </td>
-                    <td>
-                        <p class="text-xs font-weight-bold mb-0">{{ $product->code }}</p>
-                    </td>
-                    <td>
-                        Costco Uk
+                        Amazon Uk
                     </td>
                     <td>
                         <div class="d-flex" style="gap: 12px">

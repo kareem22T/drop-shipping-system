@@ -14,6 +14,7 @@ class HomeController extends Controller
         $search = $request->input('search', '');
 
         $productsQuery = Product::query();
+        $productsQuery->where('site', 1);
 
         if ($sort == 'stock_level_asc') {
             $productsQuery->orderBy('stock_level', 'asc');
@@ -45,9 +46,48 @@ class HomeController extends Controller
         return view('dashboard', compact('products', 'sort'));
     }
 
+    public function amazonIndex(Request $request) {
+        $sort = $request->input('sort', 'latest');
+        $search = $request->input('search', '');
+
+        $productsQuery = Product::query();
+        $productsQuery->where('site', 2);
+
+        if ($sort == 'stock_level_asc') {
+            $productsQuery->orderBy('stock_level', 'asc');
+        } elseif ($sort == 'stock_level_desc') {
+            $productsQuery->orderBy('stock_level', 'desc');
+        }else if ($sort == 'avaliable_value_asc') {
+            $productsQuery->orderBy('existance', 'asc');
+        } elseif ($sort == 'avaliable_value_desc') {
+            $productsQuery->orderBy('existance', 'desc');
+        } elseif ($sort == 'discount_exp_asc') {
+            $productsQuery->orderByRaw('STR_TO_DATE(discount_exp, "%Y-%m-%d") asc');
+        } elseif ($sort == 'discount_exp_desc') {
+            $productsQuery->orderByRaw('STR_TO_DATE(discount_exp, "%Y-%m-%d") desc');
+        } elseif ($sort == 'discount_value_asc') {
+            $productsQuery->orderByRaw('CAST(discount_value AS DECIMAL(10,2)) asc');
+        } elseif ($sort == 'discount_value_desc') {
+            $productsQuery->orderByRaw('CAST(discount_value AS DECIMAL(10,2)) desc');
+        } elseif ($search) {
+            $productsQuery
+                ->where('name', 'like', '%' . $search . '%')
+                ->orWhere('code', 'like', '%' . $search . '%')
+                ->orWhere('url', 'like', '%' . $search . '%');
+        } else {
+            $productsQuery->latest();
+        }
+
+        $products = $productsQuery->paginate(20)->appends(['sort' => $sort, "search" => $search]);
+
+        return view('amazon', compact('products', 'sort'));
+    }
+
     public function storeProduct(Request $request) {
         if ($request->site == 1)
             return CostcoScraper::insertProduct($request);
+        if ($request->site == 2)
+            return AmazonController::insertProduct($request);
     }
 
     public function checkWarnings(Request $request)
