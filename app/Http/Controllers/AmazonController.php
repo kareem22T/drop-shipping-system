@@ -40,12 +40,17 @@ class AmazonController extends Controller
         $titleElement = $crawler->filterXPath($titleXPath);
         $titleText = $titleElement->count() > 0 ? $titleElement->text() : '#title not found';
 
+        $ASIN = '//*[@id="ASIN"]'; // replace with your copied XPath
+        $ASINElement = $crawler->filterXPath($ASIN);
+        $ASINText = $ASINElement->count() > 0 ? $ASINElement->text() : '#code not found';
+
         // Return the scraped data as JSON
         return [
             'quantity' => $quantityText,
             'price' => $priceText,
             'image' => $ImageText,
             'title' => $titleText,
+            'code' => $ASINText,
         ];
     }
 
@@ -68,7 +73,12 @@ class AmazonController extends Controller
             $stock = $fetched_product['quantity'];
             $image = $fetched_product['image'];
             $title = $fetched_product['title'];
+            $code = $fetched_product['code'];
             $url = $item;
+
+            $product_exists = Product::where("code", $code)->first();
+            if ($product_exists)
+                return redirect()->back()->withErrors(["general" => "Product already exists"]);
 
             $product = Product::create([
                 "name" => $title,
@@ -78,7 +88,7 @@ class AmazonController extends Controller
                 "stock" => $stock,
                 "site" => 2,
                 "url" => $url,
-                "code" => "Amazon",
+                "code" => $code,
                 "stock_level" => 1,
             ]);
         }
