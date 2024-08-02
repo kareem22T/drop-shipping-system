@@ -287,7 +287,7 @@
                                 <span class="badge badge-sm bg-gradient-success">In Stock</span>
                                 @break
                             @default
-                                <span class="badge badge-sm bg-gradient-danger">Out Of Stock</span>
+                                <span class="badge badge-sm bg-gradient-danger">{{$product->stock}}</span>
 
                         @endswitch
                     </td>
