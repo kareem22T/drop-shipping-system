@@ -42,7 +42,7 @@ class AmazonController extends Controller
 
         $ASIN = '//*[@id="ASIN"]'; // replace with your copied XPath
         $ASINElement = $crawler->filterXPath($ASIN);
-        $ASINText = $ASINElement->count() > 0 ? $ASINElement->text() : '#code not found';
+        $ASINText = $ASINElement->count() > 0 ? $ASINElement->attr("value") : '#code not found';
 
         // Return the scraped data as JSON
         return [
