@@ -70,7 +70,7 @@ class AmazonController extends Controller
             $fetched_product = self::fetchProduct($item);
 
             $price = $fetched_product['price'];
-            $stock = $fetched_product['quantity'];
+            $stock = $fetched_product['quantity'] ? $fetched_product['quantity'] : "Out of Stock";
             $image = $fetched_product['image'];
             $title = $fetched_product['title'];
             $code = $fetched_product['code'];
@@ -85,7 +85,7 @@ class AmazonController extends Controller
                 "image" => $image,
                 "price" => $price,
                 "value_price" => '0',
-                "stock" => $stock ?? "Out of Stock",
+                "stock" => $stock,
                 "site" => 2,
                 "url" => $url,
                 "code" => $code,

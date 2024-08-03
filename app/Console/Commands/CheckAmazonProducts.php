@@ -79,7 +79,7 @@ abstract class CheckAmazonProducts extends Command
 
             $newPrice = $fetched_product['price'];
 
-            $newStock = $fetched_product['quantity'] ?? "Out of Stock";
+            $newStock = $fetched_product['quantity'] ? $fetched_product['quantity'] : "Out of Stock";
 
 
             if ($product->price != $newPrice) {
