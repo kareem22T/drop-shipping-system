@@ -286,6 +286,8 @@
                             @case('In stock')
                                 <span class="badge badge-sm bg-gradient-success">In Stock</span>
                                 @break
+                            @elseif(!$product->stock)
+                              <span class="badge badge-sm bg-gradient-danger">Out of Stock</span>
                             @default
                                 <span class="badge badge-sm bg-gradient-danger">{{$product->stock}}</span>
 

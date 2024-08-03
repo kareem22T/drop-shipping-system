@@ -85,7 +85,7 @@ class AmazonController extends Controller
                 "image" => $image,
                 "price" => $price,
                 "value_price" => '0',
-                "stock" => $stock,
+                "stock" => $stock ?? "Out of Stock",
                 "site" => 2,
                 "url" => $url,
                 "code" => $code,
