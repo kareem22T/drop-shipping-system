@@ -284,8 +284,6 @@
                     <td class="align-middle text-center text-sm">
                             @if($product->stock == 'In stock')
                                 <span class="badge badge-sm bg-gradient-success">In Stock</span>
-                            @elseif(!$product->stock)
-                              <span class="badge badge-sm bg-gradient-danger">Out of Stock</span>
                             @else
                                 <span class="badge badge-sm bg-gradient-danger">{{$product->stock}}</span>
                             @endif
