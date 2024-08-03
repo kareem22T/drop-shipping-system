@@ -282,7 +282,7 @@
                         <p class="text-xs font-weight-bold mb-0">{{ $product->price }}</p>
                     </td>
                     <td class="align-middle text-center text-sm">
-                            @if('In stock')
+                            @if($product->stock == 'In stock')
                                 <span class="badge badge-sm bg-gradient-success">In Stock</span>
                             @elseif(!$product->stock)
                               <span class="badge badge-sm bg-gradient-danger">Out of Stock</span>
