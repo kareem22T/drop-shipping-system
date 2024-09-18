@@ -11,7 +11,7 @@
     @foreach($notifications as $warning)
     @if ($warning->change === "exp_warn" )
         @php
-            $content = "Product " . "<b>" . $warning->product->name . "</b>" . " " . " Discount is about to expired ";
+            $content = "Product " . "<b>" . $warning->product?->name . "</b>" . " " . " Discount is about to expired ";
         @endphp
         <p style="padding: 8px;background: #80808029;font-size: 14px;display: grid;justify-content: space-between;align-items: center;gap: 16px;grid-template-columns: repeat(8, 1fr)">
             {!! $content !!}
@@ -24,7 +24,7 @@
     @else
         @if ($warning->change == 'discount_value')
             @php
-                $content = "Product " . "<b>" . $warning->product->name . "</b>" . " " . "Discount Value" . " has changed from ";
+                $content = "Product " . "<b>" . $warning->product?->name . "</b>" . " " . "Discount Value" . " has changed from ";
                 $content .= "<b>";
                     $content .= $warning->change == "stock" ? ($warning->old == 1 ? "In Stock" : ($warning->old == 2 ? "Managed Stock" : "Out Of Stock")) : $warning->old;
                     $content .= "</b>";
@@ -41,7 +41,7 @@
             </p>
         @elseif ($warning->change == 'existance')
             @php
-                                $content = "Product " . "<b>" . $warning->product->name . "</b>" .  " Availability has changed from ";
+                                $content = "Product " . "<b>" . $warning->product?->name . "</b>" .  " Availability has changed from ";
                                 $content .= "<b>";
                                     $content .= $warning->old == 1 ? "Avilable" : "Unavilable";
                                     $content .= "</b>";
@@ -57,7 +57,7 @@
             </p>
             @else
             @php
-                $content = "Product " . "<b>" . $warning->product->name . "</b>" . " " . $warning->change . " has changed from ";
+                $content = "Product " . "<b>" . $warning->product?->name . "</b>" . " " . $warning->change . " has changed from ";
                 $content .= "<b>";
                     $content .= $warning->change == "stock" ? ($warning->old == 1 ? "In Stock" : ($warning->old == 2 ? "Managed Stock" : "Out Of Stock")) : $warning->old;
                     $content .= "</b>";
