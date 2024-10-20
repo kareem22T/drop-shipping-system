@@ -24,7 +24,7 @@ Route::get('/testEmail', [TestController::class, 'testSend']);
 
 Route::post("/amazon/add-product", [AmazonController::class, "insertProduct"]);
 
-Route::get('/get-prod', function () {
-    return Product::where('site', 1)->skip(0)->take(500)->get();
+Route::get('/get-prod/{id}', function ($id) {
+    return Product::find($id);
 });
 
