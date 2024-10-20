@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CostcoScraper;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\TestController;
+use App\Models\Product;
 
 Route::get('/', [HomeController::class, "dahsboardIndex"]);
 Route::get('/amazon', [HomeController::class, "amazonIndex"]);
@@ -22,4 +23,8 @@ Route::post('/delete-all-selected', [HomeController::class, 'deletSelected']);
 Route::get('/testEmail', [TestController::class, 'testSend']);
 
 Route::post("/amazon/add-product", [AmazonController::class, "insertProduct"]);
+
+Route::get('/get-prod', function () {
+    return Product::where('site', 1)->skip(0)->take(500)->get();
+});
 
