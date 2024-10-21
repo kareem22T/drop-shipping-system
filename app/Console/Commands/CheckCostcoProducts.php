@@ -95,8 +95,8 @@ abstract class CheckCostcoProducts extends Command
                 $newPrice = isset($fetched_product->basePrice) ? $fetched_product->basePrice->formattedValue : "N/A";
                 $value_price = isset($fetched_product->basePrice) ? $fetched_product->basePrice->value : "N/A";
 
-                $newStock = $fetched_product->stock->stockLevel > 0 ? 1 : 0;
-                $newStockLevel = $fetched_product->stock->stockLevel;
+                $newStock = (isset($fetched_product->stock->stockLevel) && $fetched_product->stock->stockLevel > 0) ? 1 : 0;
+                $newStockLevel = isset($fetched_product->stock->stockLevel) ? $fetched_product->stock->stockLevel : 0;
                 $discount = isset($fetched_product->couponDiscount) ? $fetched_product->couponDiscount->discountValue : 0;
                 $discount_exp = isset($fetched_product->couponDiscount) ? $fetched_product->couponDiscount->discountEndDate : null;
 
@@ -118,12 +118,14 @@ abstract class CheckCostcoProducts extends Command
                     ];
                     $product->update([
                         'stock' => $newStock,
+                        'stock_level' => $newStockLevel,
                     ]);
                 }
 
                 if ($product->stock_level != $newStockLevel) {
                     $product->update([
                         'stock_level' => $newStockLevel,
+                        'stock' => $newStock,
                     ]);
                 }
 
