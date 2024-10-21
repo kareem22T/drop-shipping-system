@@ -45,7 +45,7 @@ abstract class CheckCostcoProducts extends Command
             return ['product' => json_decode($response->getBody()), 'statusCode' => $statusCode];
         } catch (\Exception $e) {
             $statusCode = $e->getCode();
-            Log::error('Error fetching product: ' . $e->getMessage());
+            // Log::error('Error fetching product: ' . $e->getMessage());
             return ['product' => null, 'statusCode' => $statusCode];
         }
     }
@@ -66,11 +66,11 @@ abstract class CheckCostcoProducts extends Command
 
 
             if ($statusCode == 404) {
-                Log::info("Product {$product->id} does not exist.");
+                // Log::info("Product {$product->id} does not exist.");
                 $newExistance = 0;
                 $oldExistance = $product->existance;
                 if ($newExistance != $oldExistance) {
-                    Log::info("existance changes");
+                    // Log::info("existance changes");
                     $changes['existance'] = [
                         'old' => $oldExistance,
                         'new' => $newExistance
@@ -81,7 +81,7 @@ abstract class CheckCostcoProducts extends Command
                 $newExistance = 1;
                 $oldExistance = $product->existance;
                 if ($newExistance != $oldExistance) {
-                    Log::info("existance changes");
+                    // Log::info("existance changes");
                     $changes['existance'] = [
                         'old' => $oldExistance,
                         'new' => $newExistance
@@ -175,7 +175,7 @@ abstract class CheckCostcoProducts extends Command
                 }
             }
             if (!empty($changes)) {
-                Log::info("Product {$product->id} has changes:", $changes);
+                // Log::info("Product {$product->id} has changes:", $changes);
                 foreach ($changes as $key => $change) {
                     Warning::create([
                         "product_id" => $product->id,
@@ -242,8 +242,10 @@ abstract class CheckCostcoProducts extends Command
                     }
                 }
             }
+
+            Log::info("product: " . $product->id . ' is scand');
         } catch (\Exception $e) {
-            Log::error("Error checking product {$product->id}: " . $e->getMessage());
+            // Log::error("Error checking product {$product->id}: " . $e->getMessage());
             // Optionally: Add product to a retry list or queue
         }
     }
