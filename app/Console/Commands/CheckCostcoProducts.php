@@ -244,6 +244,8 @@ abstract class CheckCostcoProducts extends Command
             }
 
             Log::info("product: " . $product->id . ' is scand');
+            $product->isScand = true;
+            $product->save();
         } catch (\Exception $e) {
             Log::error("Error checking product {$product->id}: " . $e->getMessage());
             // Optionally: Add product to a retry list or queue

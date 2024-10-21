@@ -14,6 +14,7 @@ class Product extends Model
         'price',
         'stock',
         'url',
+        'isScand',
         'site',
         'stock_level',
         'discount_exp',
