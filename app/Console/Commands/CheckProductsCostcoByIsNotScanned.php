@@ -12,7 +12,7 @@ class CheckProductsCostcoByIsNotScanned extends CheckCostcoProducts
     public function getProducts()
     {
         $offset = $this->argument('offset');
-        $products = Product::where('site', 1)->where("isScand", false)->skip($offset)->take(200)->get();
+        $products = Product::where('site', 1)->where("isScand", false)->skip($offset)->take(50)->get();
         return $products;
     }
 }
