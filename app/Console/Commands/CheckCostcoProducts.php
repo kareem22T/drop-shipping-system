@@ -147,7 +147,7 @@ abstract class CheckCostcoProducts extends Command
                 if ($product_discount_exp < $today) {
                     $changes['discount_value'] = [
                         'old' => $product->discount_value,
-                        'new' => $discount
+                        'new' => 0
                     ];
                     $product->update([
                         'discount_exp' => null,
