@@ -1,4 +1,5 @@
 @extends("layout.main")
+@section("profile_active", "active")
 
 @section('content')
 <div class=" mt-5">
